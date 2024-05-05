@@ -1,0 +1,464 @@
+if isfile("orionlibmain.lua") then
+    orion = loadfile("orionlibmain.lua")()
+else
+    orion = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+end
+
+local RS = Game.ReplicatedStorage
+local LP = game.Players.LocalPlayer
+
+local Window = orion:MakeWindow({Name = "A Dream You've Had Before", HidePremium = true, SaveConfig = true, ConfigFolder = "adyhbsave", IntroEnabled = true, IntroIcon ="rbxassetid://10055369646", IntroText = "Script By intestines83 and GIULIOCHESALTA"})
+
+local climbtab = Window:MakeTab({
+	Name = "Climb/Descend",
+	Icon = "rbxassetid://10055369646",
+	PremiumOnly = false
+})
+
+climbtab:AddLabel("Climbing tweens adapted from jakub's script.")
+
+climbtab:AddTextbox({
+	Name = "Floor",
+	Default = 1,
+	TextDisappear = false,
+	Callback = function(value)
+		_G.vtofloor  = value
+	end	  
+})
+
+climbtab:AddTextbox({
+	Name = "Speed",
+	Default = 2,
+	TextDisappear = false,
+	Callback = function(value)
+		_G.vspeed = value
+	end	  
+})
+
+-- skidded a majority of this func from jakub
+climbtab:AddToggle({
+	Name = "Travel To Floor",
+	Default = false,
+	Callback = function(tval)
+	    
+	if not _G.vspeed then
+	    speed = 2
+	else
+	    speed = _G.vspeed
+	end
+	
+	if not _G.vtofloor then
+	    tofloor = 1
+	else
+	    tofloor = _G.vtofloor
+	end
+	    
+    local currentFloor = game.Players.LocalPlayer.CurrentFloor	    
+	local lastFloor
+	    
+	if tval == true then
+	    traveling = true
+	
+	    repeat
+	        HRP = game.Players.LocalPlayer.Character.HumanoidRootPart
+	        
+	        startValue = currentFloor.Value
+	        if lastFloor == startValue then
+		        currentFloor.Changed:Wait(0.2)
+	        end
+	    
+
+	        task.wait()
+			if tonumber(tofloor) < tonumber(currentFloor.Value) then
+                if tonumber(currentFloor.Value) < -666 and tonumber(currentFloor.Value) > -1000 then
+	        	    workspaceFloor = workspace.ActiveFloors["Floor"..tostring(tonumber(currentFloor.Value)-2)]
+                else
+                    workspaceFloor = workspace.ActiveFloors["Floor"..tostring(tonumber(currentFloor.Value)-1)]
+                end
+			else
+				workspaceFloor = workspace.ActiveFloors["Floor"..tostring(currentFloor.Value)]
+			end
+	        
+	        local LS
+	        for i,v in pairs(workspaceFloor.Stairs:GetChildren()) do
+			    local y = v.Position.Y
+			    if not LS then
+			        LS = v
+			    elseif y < LS.Position.Y then
+			        LS = v	
+			    end
+		    end
+	        
+	        local FP
+	        WFP = workspaceFloor.Parts
+            if WFP:FindFirstChild("FloorPiece") then
+		        FP = WFP:FindFirstChild("FloorPiece")
+		    elseif WFP:FindFirstChild("FloorPart")  then
+			    FP = WFP:FindFirstChild("FloorPart")
+		    elseif WFP:FindFirstChild("Floor") then
+			    FP = WFP:FindFirstChild("Floor")
+	        else
+			    local HS
+			    for i,v in pairs(workspaceFloor.Stairs:GetChildren()) do
+				    local y = v.Position.Y
+				    if not HS then
+					   HS = v
+				    elseif y > HS.Position.Y then
+					   HS = v	
+				    end
+			    end
+			    if HS.Size == Vector3.new(6, 1, 6.6) then
+				    FP = HS
+			    end
+	        end
+	        
+			lastFloor = startValue
+			if tonumber(tofloor) < tonumber(currentFloor.Value) then
+                if tonumber(currentFloor.Value) < -666 and tonumber(currentFloor.Value) > -1000 then
+                    local ST = game:GetService('TweenService'):Create(HRP,TweenInfo.new(0.5,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut),
+                    {CFrame = FP.CFrame + Vector3.new(0, 4, 0)})
+                    ST:Play()
+                    ST.Completed:Wait()
+                    task.wait(1.5)
+                else
+                    local FT = game:GetService('TweenService'):Create(HRP,TweenInfo.new(speed-speed/1.25,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut),
+                    {CFrame = LS.CFrame + Vector3.new(0, 4, 0)})
+                    local ST = game:GetService('TweenService'):Create(HRP,TweenInfo.new(speed/1.25,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut),
+                    {CFrame = FP.CFrame + Vector3.new(0, 4, 0)})
+                    ST:Play()
+                    ST.Completed:Wait()
+                    FT:Play()
+                    FT.Completed:Wait()
+                end
+			else
+                if tonumber(currentFloor.Value) < -668 and tonumber(currentFloor.Value) > -1000 then
+                    local ST = game:GetService('TweenService'):Create(HRP,TweenInfo.new(0.4,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut),
+                    {CFrame = FP.CFrame + Vector3.new(0, 4, 0)})
+                    ST:Play()
+                    ST.Completed:Wait()
+                    task.wait(1.6)
+                else
+                    local FT = game:GetService('TweenService'):Create(HRP,TweenInfo.new(speed/1.25,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut),
+                    {CFrame = LS.CFrame + Vector3.new(0, 4, 0)})
+                    local ST = game:GetService('TweenService'):Create(HRP,TweenInfo.new(speed-speed/1.25,Enum.EasingStyle.Linear,Enum.EasingDirection.InOut),
+                    {CFrame = FP.CFrame + Vector3.new(0, 4, 0)})
+                    FT:Play()
+                    FT.Completed:Wait()
+                    ST:Play()
+                    ST.Completed:Wait()
+                end
+			end
+	    until tonumber(currentFloor.Value) == tonumber(tofloor) or traveling == false
+	else
+	    traveling = false
+	end
+end})
+
+TPL = climbtab:AddLabel("TPL")
+
+local mobtab = Window:MakeTab({
+	Name = "Hazards/FX",
+	Icon = "rbxassetid://10055369646",
+	PremiumOnly = false
+})
+
+mobtab:AddButton({
+	Name = "Remove All Hazards/FX",
+	Callback = function()
+		RS.Client.Modules.SpiderLeap:Destroy()
+		RS.Client.Events.Cats:Destroy()
+		RS.Client.Modules.ShadowDeath:Destroy()
+		RS.Client.Events.Gravity:Destroy()	
+        RS.Client.Events.Nightmare:Destroy()
+        RS.Client.Events.Crusher:destroy()
+        RS.Remotes.Damage:Destroy()
+        RS.Client.Events.TweenLighting:destroy()
+        LP.PlayerGui.FilmGrain:Destroy()
+        LP.PlayerGui.Vig:Destroy()
+  	end    
+})
+
+mobtab:AddButton({
+	Name = "Disable Spiders",
+	Callback = function()
+		RS.Client.Modules.SpiderLeap:Destroy()
+  	end    
+})
+
+mobtab:AddButton({
+	Name = "Disable Cats",
+	Callback = function()
+		RS.Client.Events.Cats:Destroy()
+  	end    
+})
+
+mobtab:AddButton({
+	Name = "Disable Shadow",
+	Callback = function()
+		RS.Client.Modules.ShadowDeath:Destroy()
+  	end    
+})
+
+mobtab:AddButton({
+	Name = "Disable Damage",
+	Callback = function()
+		RS.Remotes.Damage:Destroy()
+  	end    
+})
+
+mobtab:AddButton({
+	Name = "Remove Tilting Floors",
+	Callback = function()
+		RS.Client.Events.Gravity:Destroy()	
+  	end    
+})
+
+mobtab:AddButton({
+	Name = "Remove Nightmare Floors",
+	Callback = function()
+		RS.Client.Events.Nightmare:Destroy()	
+  	end    
+})
+
+mobtab:AddButton({
+	Name = "Remove Dark Floors",
+	Callback = function()
+		RS.Client.Events.TweenLighting:destroy()
+  	end    
+})
+
+mobtab:AddButton({
+	Name = "Remove Fate Crusher",
+	Callback = function()
+		RS.Client.Events.Crusher:destroy()
+  	end    
+})
+
+mobtab:AddButton({
+	Name = "Remove Film Grain",
+	Callback = function()
+		LP.PlayerGui.FilmGrain:Destroy()
+  	end    
+})
+
+mobtab:AddButton({
+	Name = "Remove Vignette",
+	Callback = function()
+		LP.PlayerGui.Vig:Destroy()
+  	end    
+})
+
+local misctab = Window:MakeTab({
+	Name = "Misc",
+	Icon = "rbxassetid://10055369646",
+	PremiumOnly = false
+})
+
+misctab:AddButton({
+	Name = "Grab Passage Key",
+	Callback = function()
+		fireclickdetector(game.Workspace.Models.PassageKey.key.ClickDetector)
+  	end    
+})
+
+misctab:AddButton({
+	Name = "Grab Basement Key",
+	Callback = function()
+		fireclickdetector(game.Workspace.Models.BasementKey.key.ClickDetector)
+  	end    
+})
+
+misctab:AddButton({
+	Name = "Lectern Skip",
+	Callback = function()
+		RS.Remotes.Lectern:FireServer("floor 9")
+  	end    
+})
+
+misctab:AddTextbox({
+	Name = "Remote Lectern",
+	Default = "",
+	TextDisappear = true,
+	Callback = function(value)
+		RS.Remotes.Lectern:FireServer(value)
+	end	  
+})
+
+misctab:AddToggle({
+	Name = "Decipher Cellar Code",
+	Default = false,
+	Callback = function(Bool)
+		if Bool == true then
+            deciphering = true
+
+            CParagraph = misctab:AddParagraph("Key Code"," ")
+            
+            for i, v in pairs(game:GetService("CoreGui").Orion:GetDescendants()) do
+                if v.Name == "Title" and v.Text == "Key Code" then
+                    pinws = v.Parent.Content
+                end
+            end
+
+            gpcs = game.Players.LocalPlayer.CurrentFloor:GetPropertyChangedSignal("Value"):Connect(function()
+                if deciphering == true then
+                    for i, v in pairs (game.Workspace.ActiveFloors["Floor"..tostring(game.Players.LocalPlayer.CurrentFloor.Value)]:GetDescendants()) do
+                        if v.Name == "SurfaceGui" then
+                            if v.content.Text == " 26 5 18 15" then CParagraph:Set(""..pinws.Text.." ")
+                                elseif v.content.Text == " 15 14 5" then CParagraph:Set(""..pinws.Text.."a")
+                                elseif v.content.Text == " 20 23 15" then CParagraph:Set(""..pinws.Text.."b")
+                                elseif v.content.Text == " 20 8 18 5 5" then CParagraph:Set(""..pinws.Text.."c")
+                                elseif v.content.Text == " 6 15 21 18" then CParagraph:Set(""..pinws.Text.."d")
+                                elseif v.content.Text == " 6 9 22 5" then CParagraph:Set(""..pinws.Text.."e")
+                                elseif v.content.Text == " 19 9 24" then CParagraph:Set(""..pinws.Text.."f")
+                                elseif v.content.Text == " 19 5 22 5 14" then CParagraph:Set(""..pinws.Text.."g")
+                                elseif v.content.Text == " 5 9 7 8 20" then CParagraph:Set(""..pinws.Text.."h")
+                                elseif v.content.Text == " 14 9 14 5" then CParagraph:Set(""..pinws.Text.."i")
+                                elseif v.content.Text == " 20 5 14" then CParagraph:Set(""..pinws.Text.."j")
+                                elseif v.content.Text == " 5 12 5 22 5 14" then CParagraph:Set(""..pinws.Text.."k")
+                                elseif v.content.Text == " 20 23 5 12 22 5" then CParagraph:Set(""..pinws.Text.."l")
+                                elseif v.content.Text == " 20 8 9 18 20 14 5 5 14" then CParagraph:Set(""..pinws.Text.."m")
+                                elseif v.content.Text == " 6 15 21 18 20 5 5 14" then CParagraph:Set(""..pinws.Text.."n")
+                                elseif v.content.Text == " 6 9 6 20 5 5 14" then CParagraph:Set(""..pinws.Text.."o")
+                                elseif v.content.Text == " 19 9 24 20 5 5 14" then CParagraph:Set(""..pinws.Text.."p")
+                                elseif v.content.Text == " 19 5 22 5 14 20 5 5 14" then CParagraph:Set(""..pinws.Text.."q")
+                                elseif v.content.Text == " 5 9 7 8 20 20 5 5 14" then CParagraph:Set(""..pinws.Text.."r")
+                                elseif v.content.Text == " 14 9 14 5 20 5 5 14" then CParagraph:Set(""..pinws.Text.."s")
+                                elseif v.content.Text == " 20 23 5 14 20 25" then CParagraph:Set(""..pinws.Text.."t")
+                                elseif v.content.Text == " 20 23 5 14 20 25 15 14 5" then CParagraph:Set(""..pinws.Text.."u")
+                                elseif v.content.Text == " 20 23 5 14 20 25 20 23 15" then CParagraph:Set(""..pinws.Text.."v")
+                                elseif v.content.Text == " 20 23 5 14 20 25 20 8 18 5 5" then CParagraph:Set(""..pinws.Text.."w")
+                                elseif v.content.Text == " 20 23 5 14 20 25 6 15 21 18" then CParagraph:Set(""..pinws.Text.."x")
+                                elseif v.content.Text == " 20 23 5 14 20 25 6 9 22 5" then CParagraph:Set(""..pinws.Text.."y")
+                                elseif v.content.Text == " 20 23 5 14 20 25 19 9 24" then CParagraph:Set(""..pinws.Text.."z")   
+                            end 
+                        end
+                    end
+                end
+            end)
+        else
+            if gpcs then
+                gpcs:Disconnect()
+            end
+            deciphering = false
+            if pinws then
+                pinws.Parent:Destroy()
+            end
+        end
+	end    
+})
+
+local tptab = Window:MakeTab({
+	Name = "Floor teleporting",
+	Icon = "rbxassetid://10055369646",
+	PremiumOnly = false
+})
+
+tptab:AddButton({
+	Name = "Temporal Anticheat Removal",
+	Callback = function()
+		local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
+		local part = game.Workspace.Outside.DE.T
+		hrp.CFrame = part.CFrame
+  	end    
+})
+
+tptab:AddLabel("Quickly reset your character after clicking on the button above, then proceed.")
+
+tptab:AddTextbox({
+	Name = "Floor Number",
+	Default = "",
+	TextDisappear = true,
+	Callback = function(value)
+		local Yvalue = (1000000 * value) / 72463
+		local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
+		hrp.CFrame = hrp.CFrame + Vector3.new(0, Yvalue, 0) 
+		local function flingCharacter(character)
+            local character = game.Players.LocalPlayer.Character
+            local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+            if humanoidRootPart then
+                local bodyVelocity = humanoidRootPart:FindFirstChild("BodyVelocity")
+                if not bodyVelocity then
+                    bodyVelocity = Instance.new("BodyVelocity")
+                    bodyVelocity.Velocity = Vector3.new(0, 0, 0) -- Adjust the values as needed
+                    bodyVelocity.MaxForce = Vector3.new(0, math.huge, 0)
+                    bodyVelocity.Parent = humanoidRootPart
+                else
+                    bodyVelocity.Velocity = Vector3.new(0, 0, 0) -- Adjust the values as needed
+                end
+            end        
+        end
+        flingCharacter(character)
+        wait(2)
+        local character = game.Players.LocalPlayer.Character
+        local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+        local bodyVelocity = humanoidRootPart:FindFirstChild("BodyVelocity")
+        bodyVelocity:Destroy()
+	end	  
+})
+
+local infotab = Window:MakeTab({
+	Name = "Info",
+	Icon = "rbxassetid://10055369646",
+	PremiumOnly = false
+})
+
+infotab:AddLabel("You must still enter any keyed door manually.")
+infotab:AddLabel("Speeds under 2 can get you killed.")
+infotab:AddLabel("A speed of 1.5 usually works in Basement, and Judgement floors")
+infotab:AddLabel("You cannot use this script to get fate.")
+
+local second = 0 
+local minute = 0
+local hour = 0
+local day = 0
+
+task.spawn(function()
+    while task.wait(1) do
+        second = second + 1
+
+        if second == 60 then
+            second = 0
+            minute = minute + 1
+        end
+        
+        if minute == 60 then
+            minute = 0
+            hour = hour + 1
+        end
+
+        if hour == 24 then
+            hour = 0
+            day = day + 1
+        end
+        
+        if second < 10 then
+            displaysec = "0"..second..""
+        else
+            displaysec = second
+        end
+
+        if minute < 10 then
+            displaymin = "0"..minute..""
+        else
+            displaymin = minute
+        end
+
+        if hour < 10 and day ~= 0 then
+            displayhour = "0"..hour..""
+        end
+
+        if day == 0 and hour == 0 and minute == 0 then
+            timeplayed = ""..second.." seconds."
+        elseif day == 0 and hour == 0 then
+            timeplayed = ""..minute..":"..displaysec..""
+        elseif day == 0 then
+            timeplayed = ""..hour..":"..displaymin..":"..displaysec..""
+        else
+            timeplayed = ""..day..""..displayhour..":"..displaymin..":"..displaysec..""
+        end  
+
+        TPL:Set("Uptime: " ..timeplayed)
+    end
+end)
+
+orion:Init()
