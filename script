@@ -7,7 +7,7 @@ end
 local RS = Game.ReplicatedStorage
 local LP = game.Players.LocalPlayer
 
-local Window = orion:MakeWindow({Name = "A Dream You've Had Before", HidePremium = true, SaveConfig = true, ConfigFolder = "adyhbsave", IntroEnabled = true, IntroIcon ="rbxassetid://10055369646", IntroText = "Script By intestines83 and GIULIOCHESALTA"})
+local Window = orion:MakeWindow({Name = "A Dream You've Had Before", HidePremium = true, SaveConfig = true, ConfigFolder = "adyhbsave", IntroEnabled = true, IntroIcon ="rbxassetid://17398738503", IntroText = "Script By intestines83 and GIULIOCHESALTA"})
 
 local climbtab = Window:MakeTab({
 	Name = "Climb/Descend",
