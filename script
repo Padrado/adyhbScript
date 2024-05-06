@@ -354,7 +354,7 @@ local tptab = Window:MakeTab({
 })
 
 tptab:AddButton({
-	Name = "Temporal Anticheat Removal",
+	Name = "Temporary Anticheat Removal",
 	Callback = function()
 		local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
 		local part = game.Workspace.Outside.DE.T
