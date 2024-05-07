@@ -11,7 +11,7 @@ local Window = orion:MakeWindow({Name = "A Dream You've Had Before", HidePremium
 
 local climbtab = Window:MakeTab({
 	Name = "Climb/Descend",
-	Icon = "rbxassetid://10055369646",
+	Icon = "rbxassetid://17398738503",
 	PremiumOnly = false
 })
 
@@ -158,7 +158,7 @@ TPL = climbtab:AddLabel("TPL")
 
 local mobtab = Window:MakeTab({
 	Name = "Hazards/FX",
-	Icon = "rbxassetid://10055369646",
+	Icon = "rbxassetid://17398738503",
 	PremiumOnly = false
 })
 
@@ -349,7 +349,7 @@ misctab:AddToggle({
 
 local tptab = Window:MakeTab({
 	Name = "Floor teleporting",
-	Icon = "rbxassetid://10055369646",
+	Icon = "rbxassetid://17398738503",
 	PremiumOnly = false
 })
 
@@ -398,7 +398,7 @@ tptab:AddTextbox({
 
 local infotab = Window:MakeTab({
 	Name = "Info",
-	Icon = "rbxassetid://10055369646",
+	Icon = "rbxassetid://17398738503",
 	PremiumOnly = false
 })
 
