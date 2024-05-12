@@ -250,7 +250,7 @@ mobtab:AddButton({
 
 local misctab = Window:MakeTab({
 	Name = "Misc",
-	Icon = "rbxassetid://10055369646",
+	Icon = "rbxassetid://17398738503",
 	PremiumOnly = false
 })
 
