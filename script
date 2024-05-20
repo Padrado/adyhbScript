@@ -406,11 +406,11 @@ night:AddTextbox({
 	Name = "1st Note ID",
 	Default = "",
 	TextDisappear = true,
-	Callback = function(value)
+	Callback = function(value1)
 		for i, v in pairs (game.Workspace.ActiveFloors.Floor0.Notes:GetDescendants()) do
-			if v.Name == (string.sub(value, 0, 12)) then
-				local content1 = v.Content.Text
-				local number1 = (string.sub(value, 15, 18))
+			if v.Name == (string.sub(value1, 0, 12)) then
+				local content1 = v.Content.Value
+				local number1 = (string.sub(value1, 15, 18))
 				print(string.sub(content1, number1, number1))
 			end	
 		end
