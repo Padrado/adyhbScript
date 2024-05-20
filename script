@@ -402,8 +402,70 @@ local night = Window:MakeTab({
 	PremiumOnly = false
 })
 
+night:AddLabel("Copy down the IDs you see without the starting s on each.")
+
 night:AddTextbox({
 	Name = "1st Note ID",
+	Default = "",
+	TextDisappear = true,
+	Callback = function(value1)
+		for i, v in pairs (game.Workspace.ActiveFloors.Floor0.Notes:GetDescendants()) do
+			if v.Name == (string.sub(value1, 0, 12)) then
+				local content1 = v.Content.Value
+				local number1 = (string.sub(value1, 15, 18))
+				print(string.sub(content1, number1, number1))
+			end	
+		end
+	end
+})
+
+night:AddTextbox({
+	Name = "2nd Note ID",
+	Default = "",
+	TextDisappear = true,
+	Callback = function(value1)
+		for i, v in pairs (game.Workspace.ActiveFloors.Floor0.Notes:GetDescendants()) do
+			if v.Name == (string.sub(value1, 0, 12)) then
+				local content1 = v.Content.Value
+				local number1 = (string.sub(value1, 15, 18))
+				print(string.sub(content1, number1, number1))
+			end	
+		end
+	end
+})
+
+night:AddTextbox({
+	Name = "3rd Note ID",
+	Default = "",
+	TextDisappear = true,
+	Callback = function(value1)
+		for i, v in pairs (game.Workspace.ActiveFloors.Floor0.Notes:GetDescendants()) do
+			if v.Name == (string.sub(value1, 0, 12)) then
+				local content1 = v.Content.Value
+				local number1 = (string.sub(value1, 15, 18))
+				print(string.sub(content1, number1, number1))
+			end	
+		end
+	end
+})
+
+night:AddTextbox({
+	Name = "4th Note ID",
+	Default = "",
+	TextDisappear = true,
+	Callback = function(value1)
+		for i, v in pairs (game.Workspace.ActiveFloors.Floor0.Notes:GetDescendants()) do
+			if v.Name == (string.sub(value1, 0, 12)) then
+				local content1 = v.Content.Value
+				local number1 = (string.sub(value1, 15, 18))
+				print(string.sub(content1, number1, number1))
+			end	
+		end
+	end
+})
+
+night:AddTextbox({
+	Name = "5th Note ID",
 	Default = "",
 	TextDisappear = true,
 	Callback = function(value1)
