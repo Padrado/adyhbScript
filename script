@@ -402,7 +402,7 @@ local night = Window:MakeTab({
 	PremiumOnly = false
 })
 
-tptab:AddTextbox({
+night:AddTextbox({
 	Name = "1st Note ID",
 	Default = "",
 	TextDisappear = true,
