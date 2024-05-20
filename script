@@ -402,7 +402,7 @@ local night = Window:MakeTab({
 	PremiumOnly = false
 })
 
-night:AddLabel("Copy down the IDs you see without the starting s on each.")
+
 
 night:AddTextbox({
 	Name = "1st Note ID",
