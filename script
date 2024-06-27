@@ -402,7 +402,13 @@ local night = Window:MakeTab({
 	PremiumOnly = false
 })
 
-
+night:AddButton({
+	Name = "Get note IDs (ignore 108)",
+	Callback = function()
+		local Stuff = workspace.M.SG.Part.SurfaceGui.TextLabel.Text
+		print(Stuff)
+  	end    
+})
 
 night:AddTextbox({
 	Name = "1st Note ID",
